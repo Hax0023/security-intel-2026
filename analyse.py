@@ -13,31 +13,21 @@ def get_client():
     return anthropic.Anthropic(credentials=CredentialsFile("default"))
 
 def fetch_article(url,n=5000):
-    bua="Mozilla/5.0 Chrome/124.0"
-    for ua in [bua,HEADERS["User-Agent"]]:
-        try:
-            r=requests.get(url,headers={"User-Agent":ua},timeout=15,allow_redirects=True)
-            if r.status_code in (403,429,503): continue
-            r.raise_for_status()
-            soup=BeautifulSoup(r.text,"lxml")
-            for t in soup(["nav","footer","script","style","aside","header"]): t.decompose()
-            body=soup.find("article") or soup.find("main") or soup.body
-            if not body: continue
-            text="\n".join(l for l in body.get_text().splitlines() if l.strip())
-            if len(text)>200: return text[:n]
-        except Exception: continue
-    return ""
-
-
-PROMPT = (
-    "You are a senior security researcher. Analyse this bug bounty writeup. "
-    "Respond ONLY with valid JSON (no markdown). Keys: "
-    "title, severity(critical/high/medium/low/unknown), vuln_types(list), "
-    "program, bounty(str), summary(2-3 sentences), "
-    "attack_scenario(list of 4-6 steps), root_cause, attacker_mindset, "
-    "defensive_takeaways(list), variant_hunting, "
-    "mitre_techniques(list eg T1190 - Exploit Public-Facing App), notes"
-)
+ if "youtube" in url: return ""
+ bua="Mozilla/5.0 Chrome/124.0"
+ for hdrs in [{"User-Agent":bua},HEADERS]:
+  try:
+   r=requests.get(url,headers=hdrs,timeout=20,allow_redirects=True)
+   if r.status_code in (403,429,503): continue
+   r.raise_for_status()
+   soup=BeautifulSoup(r.text,"lxml")
+   for t in soup(["nav","footer","script","style","aside"]): t.decompose()
+   body=soup.find("article") or soup.find("main") or soup.body
+   if not body: continue
+   text="\n".join(l for l in body.get_text().splitlines() if l.strip())
+   if len(text)>200: return text[:n]
+  except Exception: continue
+ return ""
 
 def run(title, url, text):
     if not text or len(text) < 100: return None

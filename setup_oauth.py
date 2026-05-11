@@ -8,7 +8,7 @@ print("Token expires:",time.strftime("%Y-%m-%d %H:%M",time.localtime(int(creds["
 base=os.path.expanduser("~/.config/anthropic")
 os.makedirs(base+"/configs",exist_ok=True)
 os.makedirs(base+"/credentials",mode=0o700,exist_ok=True)
-json.dump({"authentication":{"type":"user_oauth","client_id":"claude_cli"}},open(base+"/configs/default.json","w"),indent=2)
+json.dump({"authentication":{"type":"user_oauth","client_id":"9d1c250a-e61b-44d9-88ed-5944d1962f5e"}},open(base+"/configs/default.json","w"),indent=2)
 cf=base+"/credentials/default.json"
 d={"version":"1.0","type":"oauth_token","access_token":creds["accessToken"],"refresh_token":creds["refreshToken"],"expires_at":int(creds["expiresAt"]/1000)}
 json.dump(d,open(cf,"w"),indent=2)
