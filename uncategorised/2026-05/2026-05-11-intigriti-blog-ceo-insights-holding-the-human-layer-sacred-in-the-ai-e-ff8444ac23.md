@@ -2,44 +2,42 @@
 
 ## Metadata
 - **Source:** Intigriti Blog
-- **Date published:** 2026-05-11
+- **Date:** 
 - **Author:** Stijn Jans
-- **Program / Target:** Various
-- **Bounty:** Not disclosed
+- **Program:** N/A
+- **Bounty:** N/A
 - **Severity:** unknown
-- **Vulnerability type(s):** Business Insights
+- **Vuln types:** See writeup
 - **Category:** uncategorised
-- **Original writeup:** https://www.intigriti.com/blog/business-insights/ceo-insights-holding-the-human-layer-sacred-in-the-ai-era
+- **Writeup:** https://www.intigriti.com/blog/business-insights/ceo-insights-holding-the-human-layer-sacred-in-the-ai-era
 
 ## Summary
-As founder and CEO of Intigriti, I've spent a long time around hackers, and one thing is clear. The best ones don't fear AI. They use it.  
-What they do fear, however, and what I take seriously as a founder, is a world where platforms quietly replace them under the banner of efficiency. Where their work trains models they don't benefit from, and where the economics of the craft erode while everyone smiles and calls it progress.  
-The beating heart of the Bug Bounty industry  
-In the ten+ years o
+This is a business insights article from Intigriti's CEO discussing the role of human security researchers in the bug bounty industry amid AI advancement. The piece argues that while AI will automate lower-tier security tasks, human creativity and contextual reasoning remain essential for finding critical vulnerabilities, particularly in business logic and novel attack chains.
 
 ## Attack scenario (step by step)
-1. 
-2. 
-3. 
+
 
 ## Root cause
-
+N/A
 
 ## Attacker mindset
-<!-- How did the researcher find this? What assumption did they break? -->
+N/A
 
 ## Defensive takeaways
-- 
+- AI tools are best used to commoditize routine security work (vulnerability scanning, dependency checking, configuration review) to free human researchers for higher-value work
+- Diverse tooling combined with diverse human thinking creates a stronger security posture than single-vendor AI solutions
+- Human researchers excel at understanding business logic, chaining attacks across systems, and identifying novel attack patterns that AI cannot structurally discover
+- Organizations should implement a tiered approach: continuous AI scanning for breadth, time-bound human research for depth, and creative researcher involvement for novel threats
+- Platform architecture should amplify human capabilities rather than replace them to maintain long-term security effectiveness
 
 ## Variant hunting
-<!-- Where else could this same bug class exist? -->
-- 
+Organizations relying solely on AI security solutions may miss novel attack vectors that require human creativity and contextual understanding of application-specific business logic
 
-## MITRE ATT&CK mapping
-- 
+## MITRE ATT&CK
+
 
 ## Notes
-- 
+This is not a bug bounty writeup documenting a specific vulnerability. It is a thought leadership article discussing industry trends and strategic positioning. No security vulnerability, exploit, or technical flaw is present. The document serves as strategic commentary rather than a security research disclosure.
 
 ---
-*Auto-harvested 2026-05-11*
+*Analysed by Claude (claude-haiku-4-5-20251001) on 2026-05-11*
