@@ -4,6 +4,7 @@ import requests,feedparser
 from bs4 import BeautifulSoup
 from github import Github,GithubException
 from dotenv import load_dotenv
+import analyse
 
 load_dotenv()
 GITHUB_TOKEN=os.getenv("GITHUB_TOKEN")
@@ -233,7 +234,6 @@ def push(reports):
   created=skipped=0
   for r in reports:
    r["category"]=categorise(r.get("title",""),r.get("tags",[]))
-   content=render(r)
    ds=str(r.get("published",""))[:10] or datetime.date.today().isoformat()
    ss=re.sub("[^a-z0-9]+","-",r.get("source","").lower()).strip("-")[:20]
    ts=re.sub("[^a-z0-9]+","-",r.get("title","").lower()).strip("-")[:55]
@@ -245,6 +245,9 @@ def push(reports):
    fpath=os.path.join(dirp,fname)
    if os.path.exists(fpath): skipped+=1; continue
    if DRY_RUN: log.info("[DRY] %s/%s/%s",cat,ym,fname); created+=1; continue
+   raw_text=analyse.fetch_article(r.get("url",""))
+   a_data=analyse.run(r.get("title",""),r.get("url",""),raw_text)
+   content=analyse.render(r,a_data)
    open(fpath,"w").write(content)
    subprocess.run(["git","add",fpath],cwd=tmp,check=True,capture_output=True)
    created+=1
