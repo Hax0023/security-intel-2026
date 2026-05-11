@@ -99,4 +99,6 @@ def render(r, a=None):
         "", f"## Notes", nts,
         "", f"---", f"*Analysed by Claude ({MODEL}) on {td}*",
     ]
-    return "\n".join(lines) + "\n"
+    safe=[str(x) for x in lines]
+    return chr(10).join(safe)+chr(10)
+    return chr(10).join(ls2)+chr(10)
