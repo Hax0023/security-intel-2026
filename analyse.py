@@ -29,6 +29,18 @@ def fetch_article(url,n=5000):
   except Exception: continue
  return ""
 
+PROMPT=("You are a senior security researcher. Analyse this bug bounty writeup. ""Respond ONLY with valid JSON (no markdown, no preamble). Keys: ""title, severity(critical/high/medium/low/unknown), vuln_types(list), ""program, bounty(str), summary(2-3 sentences), ""attack_scenario(list of 4-6 steps), root_cause, attacker_mindset, ""defensive_takeaways(list), variant_hunting, ""mitre_techniques(list eg T1190 - Exploit Public-Facing App), notes")
+
+PROMPT=("You are a senior security researcher. Analyse this bug bounty writeup. "
+"Respond ONLY with valid JSON (no markdown, no preamble). Keys: "
+"title, severity(critical/high/medium/low/unknown), vuln_types(list), "
+"program, bounty(str), summary(2-3 clear sentences about the bug), "
+"attack_scenario(list of 4-6 concrete steps), root_cause, attacker_mindset, "
+"defensive_takeaways(list of 3-4 controls), variant_hunting, "
+"mitre_techniques(list eg T1190 - Exploit Public-Facing App), notes")
+
+PROMPT=("You are a senior security researcher. Analyse this bug bounty writeup. "+chr(10)+"Respond ONLY with valid JSON (no markdown). Keys: title, severity, vuln_types(list), program, bounty(str), summary(2-3 sentences), attack_scenario(4-6 steps list), root_cause, attacker_mindset, defensive_takeaways(list), variant_hunting, mitre_techniques(list eg T1190), notes")
+
 def run(title, url, text):
     if not text or len(text) < 100: return None
     try:
