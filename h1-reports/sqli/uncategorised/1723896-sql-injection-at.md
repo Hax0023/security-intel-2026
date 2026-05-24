@@ -1,0 +1,92 @@
+# Sql Injection At █████████
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 1723896 | https://hackerone.com/reports/1723896
+- **Submitted:** 2022-10-05
+- **Reporter:** w13d0m
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** medium
+- **Vuln:** SQL Injection
+- **CVEs:** None
+- **Category:** uncategorised
+
+## Summary
+**Description:**
+Hi Security Team I Hope You Are Doing Well 
+
+Sql Injection is a common attack vector that uses malicious SQL code for backend database manipulation to access information that was not intended to be displayed.
+
+
+1: Visit This Endpoint ``  https://█████/ `` As You Can See This Website Using Asp.net That's Mean To Os Equal Windows.
+2: Visit This Endpoint `` https://█████/ProductMaps/
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+**Description:**
+Hi Security Team I Hope You Are Doing Well 
+
+Sql Injection is a common attack vector that uses malicious SQL code for backend database manipulation to access information that was not intended to be displayed.
+
+
+1: Visit This Endpoint ``  https://█████/ `` As You Can See This Website Using Asp.net That's Mean To Os Equal Windows.
+2: Visit This Endpoint `` https://█████/ProductMaps/PubForm/Details.aspx?PUB_ID=4568 `` As You Experienced  Sometimes To Check The Parameters Put``  '  `` To Know Vulnerable Or Not , If You Put `` ' `` In This Request As `` https://████████/ProductMaps/PubForm/Details.aspx?PUB_ID=4568' `` The Response Said Invalid Request Means To Maybe Vulnerable.
+3: So I Decided To Sure That This Endpoint Vulnerable To Sql Injection  Or Not , I Using Sqlmap As You Can See In My PoC Video.
+
+## References
+
+███
+
+## Impact
+
+The impact SQL injection can have on a business is far-reaching. A successful attack may result in the unauthorized viewing of user lists, the deletion of entire tables and, in certain cases, the attacker gaining administrative rights to a database, all of which are highly detrimental to a business.
+
+## System Host(s)
+████
+
+## Affected Product(s) and Version(s)
+
+
+## CVE Numbers
+
+
+## Steps to Reproduce
+1: Visit This Endpoint ``  https://███████/ `` As You Can See This Website Using Asp.net That's Mean To Os Equal Windows.
+2: Visit This Endpoint `` https://██████/ProductMaps/PubForm/Details.aspx?PUB_ID=4568 `` As You Experienced  Sometimes To Check The Parameters Put``  '  `` To Know Vulnerable Or Not , If You Put `` ' `` In This Request As `` https://██████/ProductMaps/PubForm/Details.aspx?PUB_ID=4568' `` The Response Said Invalid Request Means To Maybe Vulnerable.
+3: So I Decided To Sure That This Endpoint Vulnerable To Sql Injection  Or Not , I Using Sqlmap As You Can See In My PoC Video.
+
+
+Thanks And King Regards
+
+## Suggested Mitigation/Remediation Actions
+
+
+
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
