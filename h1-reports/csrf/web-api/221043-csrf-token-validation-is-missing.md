@@ -1,0 +1,117 @@
+# CSRF token validation is missing
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 221043 | https://hackerone.com/reports/221043
+- **Submitted:** 2017-04-14
+- **Reporter:** 596a96cc7bf9108cd896f33c4
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** medium
+- **Vuln:** Cross-Site Request Forgery (CSRF)
+- **CVEs:** None
+- **Category:** web-api
+
+## Summary
+Greetings,
+
+Hello Security Team,
+
+### Summary
+I know this is a medium risk issue but i want you guys to be aware of it that the CSRF token validation is missing at the time of login on `https://portal.nextcloud.com/login.php` login page.
+
+### PoC Code:
+```
+<form name="frmlogin" action="https://portal.nextcloud.com/login.php" method="post" onsubmit="return ValidateForm();">
+	<div class="row">
+		<di
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+Greetings,
+
+Hello Security Team,
+
+### Summary
+I know this is a medium risk issue but i want you guys to be aware of it that the CSRF token validation is missing at the time of login on `https://portal.nextcloud.com/login.php` login page.
+
+### PoC Code:
+```
+<form name="frmlogin" action="https://portal.nextcloud.com/login.php" method="post" onsubmit="return ValidateForm();">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="form-group">
+				<label class="control-label">Email</label>
+				<input type="text" name="member_username" id="member_username" value="" class="form-control">
+			</div>
+		</div><!-- col-sm-12 -->
+		<div class="col-xs-12">
+			<div class="form-group">
+				<label class="control-label">Password</label>
+				<input type="password" name="member_password" class="form-control">
+			</div>
+		</div><!-- col-sm-12 -->
+		<div class="col-xs-12">
+			<div class="form-group text-center">
+				<button class="btn btn-search btn-primary col-xs-12 mb10" style="padding:10px;margin-top:10px;" type="submit" name="login" value="Login Now">Login Now</button>
+				<a href="https://support.nextcloud.com/#password_reset">Forgot Password?</a>
+			</div>
+		</div><!-- col-sm-12 -->
+	</div><!-- End Row -->
+</form>
+<script type="text/javascript">
+	var tabs = '';
+	//<![CDATA[
+	function ValidateForm()
+	{
+		var f = document.frmlogin;
+		if(f.member_username.value=='')
+		{
+			alert('Please enter the Username.');
+			f.member_username.focus(); return false;
+		}
+		if(f.member_password.value=='')
+		{
+			alert('Please specify the Password.');
+			f.member_password.focus(); return false;
+		}
+	}
+	//]]>
+</script>
+```
+### PoC Attached is the html code: {F175917}
+
+### Impact:
+* An attacker can Brute force their password.
+* Brute force Attack
+
+
+Regards,
+j3
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
