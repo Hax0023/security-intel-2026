@@ -1,0 +1,98 @@
+# Firefly's verify_access_token() function does a byte-by-byte comparison of HMAC values.
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 240958 | https://hackerone.com/reports/240958
+- **Submitted:** 2017-06-17
+- **Reporter:** edoverflow
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** none
+- **Vuln:** Cryptographic Issues - Generic
+- **CVEs:** None
+- **Category:** uncategorised
+
+## Summary
+Dear Yelp bug bounty team,
+
+# Summary
+---
+
+[Firefly](https://github.com/Yelp/firefly) is vulnerable to timing attacks, because the `verify_access_token()` function performs a byte-by-byte comparison, which terminates early when two characters do not match.
+
+Timing attacks are a type of side channel attack where one can discover valuable information by recording the time it takes for a cryptographi
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+Dear Yelp bug bounty team,
+
+# Summary
+---
+
+[Firefly](https://github.com/Yelp/firefly) is vulnerable to timing attacks, because the `verify_access_token()` function performs a byte-by-byte comparison, which terminates early when two characters do not match.
+
+Timing attacks are a type of side channel attack where one can discover valuable information by recording the time it takes for a cryptographic algorithm to execute.
+
+~~~python
+def verify_access_token(token, key):
+    """Verify that the given access token is still valid. Returns true if it is,
+    false if it either failed to validate or has expired.
+    A token is a combination of a unix timestamp and a signature"""
+    t = token[:15]
+    signature = token[15:]
+    expected_signature = hmac.new(key, msg=t, digestmod=hashlib.sha1).hexdigest()
+    return signature == expected_signature and int(t) >= int(time.time())
+~~~
+
+The `==` operation does a byte-by-byte comparison of two values and as soon as the two differentiate it terminates. This means the longer it takes until the operation returns, the more correct characters the attacker has guessed. An attacker can then create a valid HMAC without knowing the HMAC key.
+
+# How can this be fixed?
+---
+
+You have already imported the hmac module, so this fix simply consists of changing one line.
+
+~~~diff
+def verify_access_token(token, key):
+    """Verify that the given access token is still valid. Returns true if it is,
+    false if it either failed to validate or has expired.
+    A token is a combination of a unix timestamp and a signature"""
+    t = token[:15]
+    signature = token[15:]
+    expected_signature = hmac.new(key, msg=t, digestmod=hashlib.sha1).hexdigest()
+-   return signature == expected_signature and int(t) >= int(time.time())
++   return hmac.compare_digest(signature, expected_signature) and int(t) >= int(time.time())
+~~~
+
+The `hmac.compare_digest()` function does not terminate as soon as two bytes are not the same.
+
+If you would like me to submit a PR to address this issue, I would be more than happy to do that.
+
+Best regards,
+Ed
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
