@@ -1,0 +1,83 @@
+# Legacy API exposes private video titles
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 111386 | https://hackerone.com/reports/111386
+- **Submitted:** 2016-01-18
+- **Reporter:** nathonsecurity
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** unknown
+- **Vuln:** Information Disclosure
+- **CVEs:** None
+- **Category:** web-api
+
+## Summary
+Hi,
+
+I have discovered Vimeo's legacy API (`vimeo.com/api`) exposes private video titles.
+
+Example URL: https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/152133387
+
+Vimeo provides the uploader with 5 privacy options for viewing videos:
+
+1. Anyone
+2. Only me
+3. Only people I follow
+4. Only people I choose
+5. Only people with a password
+
+While "Only me" is selected the above URL will return 
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+Hi,
+
+I have discovered Vimeo's legacy API (`vimeo.com/api`) exposes private video titles.
+
+Example URL: https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/152133387
+
+Vimeo provides the uploader with 5 privacy options for viewing videos:
+
+1. Anyone
+2. Only me
+3. Only people I follow
+4. Only people I choose
+5. Only people with a password
+
+While "Only me" is selected the above URL will return `404 Not Found`. If any of the last three options are selected, the server will respond with:
+
+```
+{"type":"video","version":"1.0","provider_name":"Vimeo","provider_url":"https:\/\/vimeo.com\/","html":"<iframe src=\"https:\/\/player.vimeo.com\/video\/152133387\" width=\"352\" height=\"288\" frameborder=\"0\" title=\"My secret video\" webkitallowfullscreen mozallowfullscreen allowfullscreen><\/iframe>","width":352,"height":288,"video_id":152133387,"uri":"\/videos\/152133387"}
+```
+
+As you can see, this includes the title "My secret video". Given a URL of a private video, an attacker can view the title of the video which may in turn reveal the contents of the video. As video IDs increment one-by-one, it would be very easy to discover the titles of thousands of private videos by checking the response of the video page against the response of the API.
+
+-Nathan
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
