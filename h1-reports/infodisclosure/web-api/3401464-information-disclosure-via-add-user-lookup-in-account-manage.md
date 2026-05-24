@@ -1,0 +1,96 @@
+# Information Disclosure via “Add user” lookup in Account Management (User Access)
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 3401464 | https://hackerone.com/reports/3401464
+- **Submitted:** 2025-10-27
+- **Reporter:** yoyomiski
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** medium
+- **Vuln:** Exposure of Sensitive Information Due to Incompatible Policies
+- **CVEs:** CVE-2025-52669
+- **Category:** web-api
+
+## Summary
+##Version: 
+==revive-adserver 6.0.0==
+
+##Flow
+```
+Administrator Account
+├── Management 1
+│    ├── User A1 
+│    └── User A2
+└── Management 2
+     ├── User B1 (leak email, contacname)
+     └── User B2 (leak email, contacname)
+```
+
+##Summary:
+When a user under Management 1 navigates to `User Access → Add user` and enters a username, the system performs a global lookup across all accounts instead of 
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+##Version: 
+==revive-adserver 6.0.0==
+
+##Flow
+```
+Administrator Account
+├── Management 1
+│    ├── User A1 
+│    └── User A2
+└── Management 2
+     ├── User B1 (leak email, contacname)
+     └── User B2 (leak email, contacname)
+```
+
+##Summary:
+When a user under Management 1 navigates to `User Access → Add user` and enters a username, the system performs a global lookup across all accounts instead of restricting the search to the current account’s scope. If the entered username belongs to a user from another account (e.g., Management 2), the application returns and displays that user’s contact name and email address in the Add User form — even though the current user does not have permission to access that account.
+
+##Step to reproduce:
+**Prerequisites: Revive Adserver with multiple accounts (Administrator, Management 1, Management 2). Attacker account = user in Management 1. Victim account = user in Management 2.**
+
+1. Log in as a user belonging to `Management 1`
+2. Navigate to `User Access` for `Management 1`
+3. Click `Add user` (or place focus in the Username of user to add field).
+4. Type the username of a user that exists in `Management 2` (e.g. yoyomiski) into the username field.
+5. Observe the response: the form returns and displays the yoyomiski’s `Contact Name` and `Email` although you do not have permission to access `Management 2`
+
+## Impact
+
+- Information disclosure: Unprivileged users can obtain PII (contact names and email addresses) of users in other accounts.
+
+##Video PoC: 
+- Login user `aa` under `Management 1`
+- Leak Contact name and Email of  `Management 2`
+
+**==███████==**
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
