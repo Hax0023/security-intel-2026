@@ -1,0 +1,78 @@
+# Improper access control when an added email address is deleted from authentication
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 223434 | https://hackerone.com/reports/223434
+- **Submitted:** 2017-04-24
+- **Reporter:** h1bountyoverflow
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** high
+- **Vuln:** Improper Access Control - Generic
+- **CVEs:** None
+- **Category:** auth-crypto
+
+## Summary
+Hi team,
+
+There is improper access control kind of vulnerability present in your web application.
+
+
+Steps to reproduce:
+
+1. Create an account.
+2.You will recevie a link on email about confrimation.
+2. Login into it and add another email address in authentication tab and You will recevie a link on the new email about confrimation.
+3.Remove the the any email address from it authentication tab. (Supp
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+Hi team,
+
+There is improper access control kind of vulnerability present in your web application.
+
+
+Steps to reproduce:
+
+1. Create an account.
+2.You will recevie a link on email about confrimation.
+2. Login into it and add another email address in authentication tab and You will recevie a link on the new email about confrimation.
+3.Remove the the any email address from it authentication tab. (Suppose your old email address got lost or hacked).
+
+Now suppose I removed old email address from authentication tab because i doubt the my old email id got hacked.
+
+Logically when user click on the link recived in the step 2 the user should not be allowed to enter in the application because we have removed the email from authentication tab.
+
+When attacker click on the old link recieved in the step 2 will be able to login into the application and the old email id will be automatically added to authentication tab in that account even the we have alredy removed that email address from our account.
+
+
+Please let me know if anything more is required .!
+
+
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
