@@ -1,0 +1,87 @@
+# Shop - Reflected  XSS  With  Clickjacking Leads to Steal User's Cookie  In Two Domain
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 1221942 | https://hackerone.com/reports/1221942
+- **Submitted:** 2021-06-09
+- **Reporter:** error201
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** high
+- **Vuln:** Cross-site Scripting (XSS) - Reflected
+- **CVEs:** None
+- **Category:** web-api
+
+## Summary
+Hii  Security Team ,
+
+I am S Rahul MCEH(Metaxone Certified Ethical Hacker) and a Security Researcher I just checked your website and found Reflected XSS to Good XSS Clickjacking In Two Domain
+
+Description:- As the search parameter is vulnerable to XSS and but the plus point is there is  no X-Frame-Header or Click-jacking Protection.So by combing this two methods the Attack Easier And Converted it 
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+Hii  Security Team ,
+
+I am S Rahul MCEH(Metaxone Certified Ethical Hacker) and a Security Researcher I just checked your website and found Reflected XSS to Good XSS Clickjacking In Two Domain
+
+Description:- As the search parameter is vulnerable to XSS and but the plus point is there is  no X-Frame-Header or Click-jacking Protection.So by combing this two methods the Attack Easier And Converted it to Well Working XSS on Other User’s . 
+
+Vulnerable Urls:- https://marthastewart.com/shop/all.html?s=
+                            https://bhg.com/shop/all.html?s=
+		
+Steps to reproduce :-
+1. Navigate to  Vulnerable URLS and As we know that ?s= parameter is vulnerable to XSS 
+
+2.As Reflected XSS Occurs on :-
+	Example1 :-  https://bhg.com/shop/all.html?s=%E2%80%98);%3C/script%3E%3Cscript%3Ealert(document.cookie)%3C/script%3E
+	Example2 :-  https://marthastewart.com/shop/all.html?s=%E2%80%98);%3C/script%3E%3Cscript%3Ealert(document.cookie)%3C/script%3E
+
+3.The attacker can use different Payloads like document.domain etc 
+
+4.Now as we know there is no X-Frame-Header or Click-jacking Protection that can leads to successful attack
+
+5.Now we will create POC.html to send the victim and steal the cookies of the other users { POC.html is attached below }
+
+6.Now as the victim opens the POC.html the attacker will get the cookies of the users or victim
+
+Refernces:-
+https://arbazhussain.medium.com/self-xss-to-good-xss-clickjacking-6db43b44777e
+https://hackerone.com/reports/470206
+https://hackerone.com/reports/892289
+
+## Impact
+
+Impact
+By exploiting this Vulnerability
+1.An attacker can force the customer to execute XSS and Steal user's cookie.
+2.Launch advanced phishing attacks by rendering arbitrary HTML forms.
+3.Force users to download malware/viruses.
+4.Execute browser-based attacks etc.
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*

