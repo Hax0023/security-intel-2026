@@ -1,0 +1,115 @@
+# Reflected XSS in `Telerik.ReportViewer.axd` with F5 BIG-IP ASM Bypass on `████`
+
+## Metadata
+- **Source:** HackerOne
+- **Report:** 3135626 | https://hackerone.com/reports/3135626
+- **Submitted:** 2025-05-08
+- **Reporter:** the_reinhardt
+- **Program:** Unknown
+- **Bounty:** Not disclosed
+- **Severity:** medium
+- **Vuln:** Cross-site Scripting (XSS) - Reflected
+- **CVEs:** None
+- **Category:** web-api
+
+## Summary
+**Description:**
+
+A reflected cross-site scripting (XSS) vulnerability exists in the `Telerik.ReportViewer.axd` endpoint on the staging subdomain of `███`. By fuzzing event handlers, i discovered that F5 BIG-IP Application Security Manager (ASM) blocks common handlers but fails to filter the `onwebkitplaybacktargetavailabilitychanged` attribute when used on an `<audio>` tag. This event only fires 
+
+## Attack scenario
+*(see original)*
+
+## Root cause
+*(see original)*
+
+## Attacker mindset
+*(see original)*
+
+## Defensive takeaways
+*(see original)*
+
+## Variant hunting
+*(see original)*
+
+## MITRE ATT&CK
+*(see original)*
+
+## Notes
+*(see original)*
+
+## Full report
+<details><summary>Expand</summary>
+
+**Description:**
+
+A reflected cross-site scripting (XSS) vulnerability exists in the `Telerik.ReportViewer.axd` endpoint on the staging subdomain of `███`. By fuzzing event handlers, i discovered that F5 BIG-IP Application Security Manager (ASM) blocks common handlers but fails to filter the `onwebkitplaybacktargetavailabilitychanged` attribute when used on an `<audio>` tag. This event only fires in Safari, so i leveraged BrowserStack to confirm execution in the latest Safari build (video proof captured). A secondary bypass uses a dynamically-constructed `eval` function to obfuscate the payload further.
+
+WAF Evasion Analysis
+--------------------
+- Signature Evasion: Obfuscated `eval` call and nonstandard event handler escape F5 ASM’s default regex signatures.
+- Lack of Behavioral Filtering: ASM does not simulate or inspect Safari-specific DOM events.
+- Obfuscation Resilience: Dynamically composed function names bypass static filters.
+
+
+Payload Explanation
+-------------------
+1. Bypass via unsupported event handler:
+   <audio onwebkitplaybacktargetavailabilitychanged="…"></audio>
+   F5 ASM does not recognize or filter `onwebkitplaybacktargetavailabilitychanged`, allowing the browser to execute the attribute value when the event fires.
+
+2. Obfuscated eval construction:
+   {var{3:s,2:h,5:a,0:v,4:n,1:e}='earltv'}[self][0][v+a+e+s](e+s+v+h+n)(origin)
+
+   The object literal maps indices to letters:
+   {0:v,1:e,2:h,3:s,4:n,5:a} → “v e h s n a”
+   Assembled: self[0]['v'+'a'+'e'+'s'](e+s+v+h+n)(origin) → self['eval']('origin')
+   This dynamic construction evades F5’s signature‐based detection.
+
+## References
+
+## Impact
+
+Exploitation of this vulnerability could allow an attacker to:
+- Steal session tokens or cookies
+- Perform targeted phishing by injecting malicious scripts
+- Hijack authenticated user workflows
+- Undermine trust in the staging environment
+
+## System Host(s)
+█████
+
+## Affected Product(s) and Version(s)
+
+
+## CVE Numbers
+
+
+## Steps to Reproduce
+Vulnerable URL
+--------------
+```
+█████%22{var{3:s,2:h,5:a,0:v,4:n,1:e}=%27earltv%27}[self][0][v%2ba%2be%2bs](e%2bs%2bv%2bh%2bn)(origin)
+```
+
+1. Launch a Safari browser (i used BrowserStack to simulate the latest macOS Safari).
+2. Open a private/incognito window.
+3. Navigate to the URL above.
+4. Observe that the injected JavaScript executes (alert or console command), confirming a reflected XSS.
+5. Note that the F5 BIG-IP ASM WAF does not block or sanitize the payload.
+
+## Suggested Mitigation/Remediation Actions
+1. Input Validation & Encoding: Properly sanitize and HTML-encode all user-controlled input before reflecting it.
+2. Attribute Whitelisting: Restrict the set of allowed HTML attributes to a known safe list; disallow unknown or browser-specific events.
+3. Content Security Policy (CSP): Implement a strict CSP to block inline scripts and unauthorized eval usage.
+4. WAF Tuning:
+   - Add custom rules to detect and block dynamic string concatenations of `eval`.
+   - Include checks for Safari-only event attributes like `onwebkitplaybacktargetavailabilitychanged`.
+5. Browser-Aware Testing: Regularly test WAF coverage against browser-specific features and polyglot payloads.
+
+
+
+</details>
+
+---
+*Analysed by Claude on 2026-05-24*
